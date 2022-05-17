@@ -11,12 +11,10 @@ import java.util.List;
 
 public class Cuenta {
 
-  private double saldo = 0;
+  private double saldo = 0; // Innecesario ya se inicializa en 0 por defecto
   private List<Movimiento> movimientos = new ArrayList<>();
 
-  public Cuenta() {
-    saldo = 0;
-  }
+  //public Cuenta() {saldo = 0;} Puede hacer un solo constructor
 
   public Cuenta(double montoInicial) {
     saldo = montoInicial;
@@ -42,11 +40,11 @@ public class Cuenta {
     if (cuanto <= 0) {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
-    if (getSaldo() - cuanto < 0) {
+    if (getSaldo() - cuanto < 0) { // Innecesario restarlos lo que tendria que hacer directamente es getSaldo() < cuanto
       throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
     }
     double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
-    double limite = 1000 - montoExtraidoHoy;
+    double limite = 1000 - montoExtraidoHoy; // El limite lo tendria que tener en una variable asi aporta mayor flexibilidad
     if (cuanto > limite) {
       throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000
           + " diarios, límite: " + limite);
@@ -76,6 +74,6 @@ public class Cuenta {
 
   public void setSaldo(double saldo) {
     this.saldo = saldo;
-  }
-
+  } // Mala practica este setter pq me podria romper todo el sistema
+  // Es innecesario pq ya tengo constructor y para agregar o sacar saldo tendria que usar sacar o poner
 }

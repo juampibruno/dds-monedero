@@ -76,4 +76,19 @@ public class MonederoTest {
     assertThrows(MontoNegativoException.class, () -> cuenta.sacar(-500));
   }
 
+  @Test
+  @DisplayName("Hago un deposito en una cuenta nueva y se agrega a la lista de movimientos")
+  public void AgregarMovimiento(){
+    cuenta.poner(1000);
+    assertEquals(cuenta.getMovimientos().size(),1);
+  }
+@Test
+@DisplayName("De una cuenta nueva que tiene 1500 saco 1000 correctamente")
+  public void Extraer(){
+    cuenta.poner(1500);
+    cuenta.sacar(1000);
+    assertEquals(cuenta.getSaldo(),500);
+  }
+
+
 }

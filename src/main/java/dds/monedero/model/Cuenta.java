@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Cuenta {
 
-  private double saldo = 0; // Innecesario ya se inicializa en 0 por defecto
+  private double saldo ; // Innecesario ya se inicializa en 0 por defecto
   private List<Movimiento> movimientos = new ArrayList<>();
 
   //public Cuenta() {saldo = 0;} Puede hacer un solo constructor
@@ -25,36 +25,46 @@ public class Cuenta {
   }
 
   public void poner(double cuanto) { // LONG METHOD
-    validarPoner(cuanto);
+    this.validarMontoPositivo(cuanto);
+    this.validarDepositiosDiariosMaximo();
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
     saldo = saldo + cuanto;
   }
 
-  public void validarPoner(double cuanto){
-    if (cuanto <= 0) {
-      throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
-    }
-
+  public void validarDepositiosDiariosMaximo(){
     if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= 3) {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
   }
 
   public void sacar(double cuanto) { // LONG METHOD
+    validarMontoPositivo(cuanto);
+    validarSacarMenosDelSaldo(cuanto);
+    validarExtraccionesDiarias(cuanto);
+    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+    saldo = saldo - cuanto;
+  }
+
+  public void validarMontoPositivo(double cuanto){
     if (cuanto <= 0) {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
-    if (getSaldo() - cuanto < 0) { // Innecesario restarlos lo que tendria que hacer directamente es getSaldo() < cuanto
+  }
+
+  public void validarSacarMenosDelSaldo(double cuanto){
+    if (getSaldo() <= cuanto) { // Innecesario restarlos lo que tendria que hacer directamente es getSaldo() < cuanto
       throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
     }
+
+  }
+
+  public void validarExtraccionesDiarias(double cuanto){
     double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
     double limite = 1000 - montoExtraidoHoy; // El limite lo tendria que tener en una variable asi aporta mayor flexibilidad
     if (cuanto > limite) {
       throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000
           + " diarios, límite: " + limite);
     }
-    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
-    saldo = saldo - cuanto;
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) { //LONG PARAMETRER LIST

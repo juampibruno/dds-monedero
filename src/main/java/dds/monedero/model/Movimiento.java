@@ -49,6 +49,7 @@ public class Movimiento {
     //cuenta.setSaldo(calcularValor(cuenta)); Esto esta de mas
     cuenta.agregarMovimiento(fecha, monto, esDeposito);
   }
+}
   //CODE SMELL: FEATURE ENVY, La responsabilidad es de la cuenta y no del Movimiento.
 
 /*  public double calcularValor(Cuenta cuenta) {

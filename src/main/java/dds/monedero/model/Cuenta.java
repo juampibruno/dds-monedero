@@ -24,7 +24,7 @@ public class Cuenta {
     this.movimientos = movimientos;
   }
 
-  public void poner(double cuanto) {
+  public void poner(double cuanto) { // LONG METHOD
     if (cuanto <= 0) {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
@@ -37,7 +37,7 @@ public class Cuenta {
     saldo = saldo + cuanto;
   }
 
-  public void sacar(double cuanto) {
+  public void sacar(double cuanto) { // LONG METHOD
     if (cuanto <= 0) {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
@@ -54,7 +54,7 @@ public class Cuenta {
     saldo = saldo - cuanto;
   }
 
-  public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
+  public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) { //LONG PARAMETRER LIST
     Movimiento movimiento = new Movimiento(fecha, cuanto, esDeposito);
     movimientos.add(movimiento);
   }

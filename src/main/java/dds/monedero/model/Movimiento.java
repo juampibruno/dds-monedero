@@ -44,12 +44,14 @@ public class Movimiento {
     return !esDeposito;
   }
 
+
   public void agregateA(Cuenta cuenta) {
-    cuenta.setSaldo(calcularValor(cuenta));
+    //cuenta.setSaldo(calcularValor(cuenta)); Esto esta de mas
     cuenta.agregarMovimiento(fecha, monto, esDeposito);
   }
+  //CODE SMELL: FEATURE ENVY, La responsabilidad es de la cuenta y no del Movimiento.
 
-  public double calcularValor(Cuenta cuenta) {
+/*  public double calcularValor(Cuenta cuenta) {
     if (esDeposito) {
       return cuenta.getSaldo() + getMonto();
     } else {
@@ -57,3 +59,7 @@ public class Movimiento {
     }
   }
 }
+Este metodo se vuelve totalmente innecesario pq nosotros el agregar o sacar plata de la cuenta lo vamos a hacer
+en la misma cuenta con el metodo poner o sacar
+
+*/

@@ -34,6 +34,7 @@ public class Cuenta {
     }
 
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+    saldo = saldo + cuanto;
   }
 
   public void sacar(double cuanto) {
@@ -50,6 +51,7 @@ public class Cuenta {
           + " diarios, límite: " + limite);
     }
     new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+    saldo = saldo - cuanto;
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
